@@ -216,7 +216,13 @@ export default function CosmicBalancePage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="col-span-3"
-                onKeyDown={(e) => { if (e.key === 'Enter' && description.trim() !== "") { e.preventDefault(); handleSaveTransaction();}}}
+                onKeyDown={(e) => { 
+                  if (e.key === 'Enter' && description.trim() !== "") { 
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    handleSaveTransaction();
+                  }
+                }}
                 autoFocus
               />
             </div>
