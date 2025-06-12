@@ -174,9 +174,8 @@ export default function CosmicBalancePage() {
       <Image
         src="https://placehold.co/1920x1080.png"
         alt="Cosmic background of Earth from the Moon"
-        layout="fill"
-        objectFit="cover"
-        className="-z-10"
+        fill
+        className="-z-10 object-cover"
         priority
         data-ai-hint="earth moon"
       />
