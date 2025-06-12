@@ -31,8 +31,8 @@ export default function CosmicBalancePage() {
     if (/\d/.test(key)) {
       event.preventDefault();
       setCurrentInput(prev => {
-        if (prev === "0" && key === "0") return prev; // Prevent multiple leading zeros like "00"
-        if (prev === "0" && key !== "0") return key; // Replace "0" with new digit
+        if (prev === "0" && key === "0") return prev; 
+        if (prev === "0" && key !== "0") return key; 
         const newValue = prev + key;
         if (newValue.length > 15) return prev; 
         const parts = newValue.split('.');
@@ -51,7 +51,7 @@ export default function CosmicBalancePage() {
        if (currentInput.length === 1 && currentInput === "-") { 
          setCurrentInput("");
          setIsExpenseMode(false);
-      } else if (currentInput === "") { // Handles case when input becomes empty
+      } else if (currentInput === "") { 
          setIsExpenseMode(false);
       }
     } else if (key === 'Enter') {
@@ -60,7 +60,6 @@ export default function CosmicBalancePage() {
         toast({ title: "Invalid Amount", description: "Please enter a valid non-zero amount.", variant: "destructive" });
         return;
       }
-      // Regex to validate format like 123 or 123.45 (positive numbers)
       const amountRegex = /^\d+(\.\d{1,2})?$/;
       if (!amountRegex.test(currentInput)) {
         toast({ title: "Invalid Amount Format", description: "Amount must be a number, e.g., 123 or 123.45.", variant: "destructive" });
@@ -216,11 +215,20 @@ export default function CosmicBalancePage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="col-span-3"
-                onKeyDown={(e) => { 
-                  if (e.key === 'Enter' && description.trim() !== "") { 
-                    e.preventDefault(); 
-                    e.stopPropagation();
-                    handleSaveTransaction();
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation(); // Crucial: stop event before further checks
+                    if (description.trim() !== "") {
+                      handleSaveTransaction();
+                    } else {
+                      // Handle empty description directly here
+                      toast({
+                        title: "Missing Description",
+                        description: "Please enter a description for the transaction.",
+                        variant: "destructive"
+                      });
+                    }
                   }
                 }}
                 autoFocus
